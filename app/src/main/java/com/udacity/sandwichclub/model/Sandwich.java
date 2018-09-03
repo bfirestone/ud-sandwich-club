@@ -1,29 +1,29 @@
 package com.udacity.sandwichclub.model;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class Sandwich {
 
     private String mainName;
-    private List<String> alsoKnownAs = null;
+    private List<String> alsoKnownAs;
     private String placeOfOrigin;
     private String description;
     private String image;
-    private List<String> ingredients = null;
+    private List<String> ingredients;
 
-    /**
-     * No args constructor for use in serialization
-     */
-    public Sandwich() {
-    }
-
-    public Sandwich(String mainName, List<String> alsoKnownAs, String placeOfOrigin, String description, String image, List<String> ingredients) {
+    Sandwich(String mainName, JSONArray alsoKnownAs, String placeOfOrigin,
+             String description, String image, JSONArray ingredients) throws JSONException {
         this.mainName = mainName;
-        this.alsoKnownAs = alsoKnownAs;
         this.placeOfOrigin = placeOfOrigin;
         this.description = description;
         this.image = image;
-        this.ingredients = ingredients;
+        this.alsoKnownAs = convertJsonArrayToList(alsoKnownAs);
+        this.ingredients = convertJsonArrayToList(ingredients);
     }
 
     public String getMainName() {
@@ -72,5 +72,108 @@ public class Sandwich {
 
     public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    private List<String> convertJsonArrayToList(JSONArray jsonArray) throws JSONException {
+        List<String> conversionList = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            conversionList.add(jsonArray.getString(i));
+        }
+        return conversionList;
+    }
+
+    @Override
+    public String toString() {
+        return "Sandwich{" +
+                "mainName='" + mainName + '\'' +
+                ", alsoKnownAs=" + alsoKnownAs +
+                ", placeOfOrigin='" + placeOfOrigin + '\'' +
+                ", description='" + description + '\'' +
+                ", image='" + image + '\'' +
+                ", ingredients=" + ingredients +
+                '}';
+    }
+
+    public static class Mapper {
+        private static String jsonRoot = "name";
+        private static String jsonMainName = "mainName";
+        private static String jsonAlsoKnownAs = "alsoKnownAs";
+        private static String jsonPlaceOrigin = "placeOfOrigin";
+        private static String jsonDescription = "description";
+        private static String jsonImageUrl = "image";
+        private static String jsonIngredients = "ingredients";
+
+        public static String getJsonRoot() {
+            return jsonRoot;
+        }
+
+        public static String getJsonMainName() {
+            return jsonMainName;
+        }
+
+        public static String getJsonAlsoKnownAs() {
+            return jsonAlsoKnownAs;
+        }
+
+        public static String getOrigin() {
+            return jsonPlaceOrigin;
+        }
+
+        public static String getJsonDescription() {
+            return jsonDescription;
+        }
+
+        public static String getJsonImageUrl() {
+            return jsonImageUrl;
+        }
+
+        public static String getJsonIngredients() {
+            return jsonIngredients;
+        }
+    }
+
+
+    public static class SandwichBuilder {
+        private String mainName;
+        private JSONArray alsoKnownAs;
+        private String placeOfOrigin;
+        private String description;
+        private String image;
+        private JSONArray ingredients;
+
+        public SandwichBuilder setName(String mainName) {
+            this.mainName = mainName;
+            return this;
+        }
+
+        public SandwichBuilder setAlsoKnownAs(JSONArray alsoKnownAs) {
+            this.alsoKnownAs = alsoKnownAs;
+            return this;
+        }
+
+        public SandwichBuilder setPlaceOfOrigin(String placeOfOrigin) {
+            this.placeOfOrigin = placeOfOrigin;
+            return this;
+        }
+
+        public SandwichBuilder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public SandwichBuilder setImage(String image) {
+            this.image = image;
+            return this;
+        }
+
+        public SandwichBuilder setIngredients(JSONArray ingredients) {
+            this.ingredients = ingredients;
+            return this;
+        }
+
+        public Sandwich makeMeASandwich() throws JSONException {
+            return new Sandwich(mainName, alsoKnownAs, placeOfOrigin, description, image,
+                    ingredients);
+        }
     }
 }
