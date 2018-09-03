@@ -94,6 +94,45 @@ public class Sandwich {
                 '}';
     }
 
+    public static class Mapper {
+        private static String jsonRoot = "name";
+        private static String jsonMainName = "mainName";
+        private static String jsonAlsoKnownAs = "alsoKnownAs";
+        private static String jsonPlaceOrigin = "placeOfOrigin";
+        private static String jsonDescription = "description";
+        private static String jsonImageUrl = "image";
+        private static String jsonIngredients = "ingredients";
+
+        public static String getJsonRoot() {
+            return jsonRoot;
+        }
+
+        public static String getJsonMainName() {
+            return jsonMainName;
+        }
+
+        public static String getJsonAlsoKnownAs() {
+            return jsonAlsoKnownAs;
+        }
+
+        public static String getOrigin() {
+            return jsonPlaceOrigin;
+        }
+
+        public static String getJsonDescription() {
+            return jsonDescription;
+        }
+
+        public static String getJsonImageUrl() {
+            return jsonImageUrl;
+        }
+
+        public static String getJsonIngredients() {
+            return jsonIngredients;
+        }
+    }
+
+
     public static class SandwichBuilder {
         private String mainName;
         private JSONArray alsoKnownAs;
@@ -102,7 +141,7 @@ public class Sandwich {
         private String image;
         private JSONArray ingredients;
 
-        public SandwichBuilder setMainName(String mainName) {
+        public SandwichBuilder setName(String mainName) {
             this.mainName = mainName;
             return this;
         }

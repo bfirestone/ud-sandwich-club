@@ -43,7 +43,12 @@ public class DetailActivity extends AppCompatActivity {
             closeOnError();
         }
 
-        int position = intent.getIntExtra(EXTRA_POSITION, DEFAULT_POSITION);
+        int position = DEFAULT_POSITION;
+
+        if (intent != null) {
+            position = intent.getIntExtra(EXTRA_POSITION, DEFAULT_POSITION);
+        }
+
         if (position == DEFAULT_POSITION) {
             // EXTRA_POSITION not found in intent
             closeOnError();
@@ -70,6 +75,7 @@ public class DetailActivity extends AppCompatActivity {
 
         Picasso.with(this)
                 .load(sandwich.getImage())
+                .error(R.mipmap.ic_launcher)
                 .into(mSandwichIv);
 
         setTitle(sandwich.getMainName());

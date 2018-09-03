@@ -5,6 +5,7 @@ import com.udacity.sandwichclub.model.Sandwich;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 public class JsonUtils {
 
     /**
@@ -14,16 +15,16 @@ public class JsonUtils {
      * @throws JSONException exception if json parsing fails
      */
     public static Sandwich parseSandwichJson(String jsonStr) throws JSONException {
-        JSONObject sandwichJson = new JSONObject(jsonStr);
-        JSONObject sandwichNameDetails = sandwichJson.getJSONObject("name");
+        JSONObject jsonData = new JSONObject(jsonStr);
+        JSONObject jsonNameChild = jsonData.getJSONObject(Sandwich.Mapper.getJsonRoot());
 
         return new Sandwich.SandwichBuilder()
-                .setMainName(sandwichNameDetails.getString("mainName"))
-                .setAlsoKnownAs(sandwichNameDetails.getJSONArray("alsoKnownAs"))
-                .setPlaceOfOrigin(sandwichJson.getString("placeOfOrigin"))
-                .setDescription(sandwichJson.getString("description"))
-                .setImage(sandwichJson.getString("image"))
-                .setIngredients(sandwichJson.getJSONArray("ingredients"))
+                .setName(jsonNameChild.getString(Sandwich.Mapper.getJsonMainName()))
+                .setAlsoKnownAs(jsonNameChild.getJSONArray(Sandwich.Mapper.getJsonAlsoKnownAs()))
+                .setPlaceOfOrigin(jsonData.getString(Sandwich.Mapper.getOrigin()))
+                .setDescription(jsonData.getString(Sandwich.Mapper.getJsonDescription()))
+                .setImage(jsonData.getString(Sandwich.Mapper.getJsonImageUrl()))
+                .setIngredients(jsonData.getJSONArray(Sandwich.Mapper.getJsonIngredients()))
                 .makeMeASandwich();
     }
 }
