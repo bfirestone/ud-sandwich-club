@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.udacity.sandwichclub.model.Sandwich;
 import com.udacity.sandwichclub.utils.JsonUtils;
-import com.udacity.sandwichclub.utils.ListUtils;
 
 import org.json.JSONException;
 
@@ -61,7 +60,6 @@ public class DetailActivity extends AppCompatActivity {
         Sandwich sandwich = null;
         try {
             sandwich = JsonUtils.parseSandwichJson(json);
-            Log.v(TAG, sandwich.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -92,7 +90,8 @@ public class DetailActivity extends AppCompatActivity {
         if (sandwich.getAlsoKnownAs().isEmpty()) {
             mAlsoKnownTv.setText(R.string.missing_aka);
         } else {
-            mAlsoKnownTv.setText(ListUtils.convertListToString(sandwich.getAlsoKnownAs()));
+            mAlsoKnownTv.setText(
+                    android.text.TextUtils.join(", ", sandwich.getAlsoKnownAs()));
         }
 
         // set Text for originTv
@@ -113,7 +112,8 @@ public class DetailActivity extends AppCompatActivity {
         if (sandwich.getIngredients().isEmpty()) {
             mIngredientTv.setVisibility(View.GONE);
         } else {
-            mIngredientTv.setText(ListUtils.convertListToString(sandwich.getIngredients()));
+            mIngredientTv.setText(
+                    android.text.TextUtils.join(", ", sandwich.getIngredients()));
         }
     }
 }

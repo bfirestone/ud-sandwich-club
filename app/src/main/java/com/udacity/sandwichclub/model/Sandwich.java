@@ -16,14 +16,14 @@ public class Sandwich {
     private String image;
     private List<String> ingredients;
 
-    Sandwich(String mainName, JSONArray alsoKnownAs, String placeOfOrigin,
-             String description, String image, JSONArray ingredients) throws JSONException {
+    Sandwich(String mainName, List<String> alsoKnownAs, String placeOfOrigin,
+             String description, String image, List<String> ingredients) {
         this.mainName = mainName;
         this.placeOfOrigin = placeOfOrigin;
         this.description = description;
         this.image = image;
-        this.alsoKnownAs = convertJsonArrayToList(alsoKnownAs);
-        this.ingredients = convertJsonArrayToList(ingredients);
+        this.alsoKnownAs = alsoKnownAs;
+        this.ingredients = ingredients;
     }
 
     public String getMainName() {
@@ -74,14 +74,6 @@ public class Sandwich {
         this.ingredients = ingredients;
     }
 
-    private List<String> convertJsonArrayToList(JSONArray jsonArray) throws JSONException {
-        List<String> conversionList = new ArrayList<>();
-        for (int i = 0; i < jsonArray.length(); i++) {
-            conversionList.add(jsonArray.getString(i));
-        }
-        return conversionList;
-    }
-
     @Override
     public String toString() {
         return "Sandwich{" +
@@ -94,6 +86,8 @@ public class Sandwich {
                 '}';
     }
 
+    // nice mapper class to hold all things sandwich object related
+    // note: this does not follow the rubric for udacity android nanodegree
     public static class Mapper {
         private static String jsonRoot = "name";
         private static String jsonMainName = "mainName";
@@ -135,18 +129,18 @@ public class Sandwich {
 
     public static class SandwichBuilder {
         private String mainName;
-        private JSONArray alsoKnownAs;
+        private List<String> alsoKnownAs;
         private String placeOfOrigin;
         private String description;
         private String image;
-        private JSONArray ingredients;
+        private List<String> ingredients;
 
         public SandwichBuilder setName(String mainName) {
             this.mainName = mainName;
             return this;
         }
 
-        public SandwichBuilder setAlsoKnownAs(JSONArray alsoKnownAs) {
+        public SandwichBuilder setAlsoKnownAs(List<String> alsoKnownAs) {
             this.alsoKnownAs = alsoKnownAs;
             return this;
         }
@@ -166,12 +160,12 @@ public class Sandwich {
             return this;
         }
 
-        public SandwichBuilder setIngredients(JSONArray ingredients) {
+        public SandwichBuilder setIngredients(List<String> ingredients) {
             this.ingredients = ingredients;
             return this;
         }
 
-        public Sandwich makeMeASandwich() throws JSONException {
+        public Sandwich makeMeASandwich() {
             return new Sandwich(mainName, alsoKnownAs, placeOfOrigin, description, image,
                     ingredients);
         }
